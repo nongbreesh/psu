@@ -66,7 +66,7 @@
             <!-- END HEADER -->
 
             <div class="container-fluid body">
-
+                <?php $this->load->view($view); ?>
             </div>
 
             <footer>

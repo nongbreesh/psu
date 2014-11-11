@@ -79,6 +79,7 @@ body{
     min-width: 230px;
     background: #000;
     left: 0;
+    z-index: 999;
 }
 .submenu ul{
     z-index: 999;

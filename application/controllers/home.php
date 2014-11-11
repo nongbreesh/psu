@@ -25,11 +25,14 @@ class Home extends CI_Controller {
     }
 
     public function index() {
-        $this->load->view('template/index');
+        $data['view'] = 'template/home';
+        $this->load->view('template/masterpage', $data);
     }
 
     public function orgchart() {
         $this->load->view('template/orgchart');
+        $data['view'] = 'template/home';
+        $this->load->view('template/   ', $data);
     }
 
 }
