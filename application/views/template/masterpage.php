@@ -15,15 +15,10 @@
 
         <div class="containner">
             <div class="col-xs-12 header">
-                <div class="col-xs-2 logo">
-                    <div class="row">
-                        <img src="./public/img/logo.png" width="80" />
-                        <p>ระบบจัดการข้อมูลสมาชิก</p>
-                    </div>
-                </div>
-                <div class="col-xs-10 menu">
+
+                <div class="col-xs-12 menu">
                     <div class="col-xs-2 box first active">
-                        <span class="glyphicon glyphicon-dashboard"></span>
+                        <span class="glyphicon glyphicon-stats"></span>
                         <p>ข้อมูลหลัก</p>
                     </div>
                     <div class="col-xs-3 box">
@@ -53,13 +48,18 @@
                         <a class="menu" href="#"></a>
                         <span class="glyphicon glyphicon-wrench"></span>
                         <p>ระบบการจัดการ</p>
-                        <div class="submenu">
+                        <div class="submenu" style="width:  290px;">
                             <ul>
                                 <li>  <a class="" href="#">ระบบจัดการสิทธิ์การเข้าดูเอกสาร</a></li>
                                 <li>  <a class="" href="#">ระบบจัดการเอกสาร</a></li>
-                                <li>  <a class="" href="#">ระบบจัดการสมาชิก </a></li>
-                                <li>  <a class="" href="#">นำเข้าข้อมูลพนักงาน </a></li>
-                            <li>  <a class="" href="#">นำเข้าข้อมูลสมาชิก </a></li>
+                                <li>  <a class="" href="<?php echo base_url(); ?>importdata/importemp">นำเข้าข้อมูลพนักงาน </a></li>
+                                <li>  <a class="" href="<?php echo base_url(); ?>importdata/importmember">นำเข้าข้อมูลสมาชิก </a></li>
+                                <li>  <a class="" href="<?php echo base_url(); ?>importdata/importins1">นำเข้าข้อมูลประกัน กลุ่มผู้บริหาร</a></li>
+                                <li>  <a class="" href="<?php echo base_url(); ?>importdata/importins2">นำเข้าข้อมูลประกัน กลุ่มภาคเหนือ</a></li>
+                                <li>  <a class="" href="<?php echo base_url(); ?>importdata/importins3">นำเข้าข้อมูลประกัน กลุ่มภาคอีสาน</a></li>
+                                <li>  <a class="" href="<?php echo base_url(); ?>importdata/importins4">นำเข้าข้อมูลประกัน กลุ่มภาคกลาง-ออก</a></li>
+                                <li>  <a class="" href="<?php echo base_url(); ?>importdata/importins5">นำเข้าข้อมูลประกัน กลุ่มภาคใต้-ตก</a></li>
+                                <li>  <a class="" href="<?php echo base_url(); ?>importdata/importins6">นำเข้าข้อมูลประกัน กลุ่มสำนักงานใหญ่</a></li>
                             </ul>
                         </div>
                     </div>

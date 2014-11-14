@@ -35,7 +35,13 @@ define('FOPEN_WRITE_CREATE',					'ab');
 define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
-define("GOOGLE_API_KEY", "AIzaSyAwVUiQ0uyjcBMqyZEY9o__QdmUMCLSYSQ");
 
+// Email
+define("SMTP_SERVER", "mail.thaiwebdevelop.com", TRUE); // SMTP server
+define("SMTP_SERVER_PORT", 25, TRUE); // SMTP server port
+define("SMTP_SECURE_OPTION", "", TRUE);
+define("SMTP_SERVER_USERNAME", "info@thaiwebdevelop.com", TRUE); // SMTP server user name
+define("SMTP_SERVER_PASSWORD", "thaiwebp@ssw0rd", TRUE); // SMTP server password
+define("SENDER_EMAIL", "info@thaiwebdevelop.com", TRUE); // Sender email address
 /* End of file constants.php */
 /* Location: ./application/config/constants.php */

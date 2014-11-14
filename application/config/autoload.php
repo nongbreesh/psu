@@ -55,7 +55,7 @@ $autoload['packages'] = array();
   |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
  */
 
-$autoload['libraries'] = array('database','email');
+$autoload['libraries'] = array('database','email','excel_reader');
 
 
 /*
