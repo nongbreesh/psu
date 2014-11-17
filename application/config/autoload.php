@@ -55,7 +55,7 @@ $autoload['packages'] = array();
   |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
  */
 
-$autoload['libraries'] = array('database','email','excel_reader');
+$autoload['libraries'] = array('database','email','excel_reader','pagination','session','encrypt');
 
 
 /*
@@ -112,7 +112,7 @@ $autoload['language'] = array();
   |
  */
 
-$autoload['model'] = array();
+$autoload['model'] = array('user_model','update_model','insert_model','select_model');
 
 
 /* End of file autoload.php */

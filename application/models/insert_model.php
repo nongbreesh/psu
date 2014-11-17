@@ -2,121 +2,160 @@
 
 class Insert_model extends CI_Model {
 
-    function import_emp($file) {
-        $this->db->truncate('psu_emp');
+    function import_emp($dataset, $from, $to) {
         $time = date('Y/m/d H:i:s');
-        while (!feof($file)) {
-
-            $rs = explode(",", fgets($file));
-            if ($rs[0] != '') {
-                $input = array('empid' => trim($rs[0])
-                    , 'fullname' => trim($rs[1])
-                    , 'role_desc' => trim($rs[2])
-                    , 'level' => trim($rs[3])
-                    , 'department' => trim($rs[4])
-                    , 'createdate' => $time);
-                $this->db->insert('psu_emp', $input);
-            }
-        }
-
-        return true;
-    }
-
-    function import_member($file) {
-        $crow = 0;
-        $time = date('Y/m/d H:i:s');
-        while (!feof($file)) {
-            $rs = explode(",", fgets($file));
-            if ($crow > 1) {
-                $input = array('empid' => trim($rs[1])
-                    , 'memberid' => trim($rs[0])
-                    , 'member_year' => trim($rs[8])
-                    , 'account_id' => trim($rs[9])
-                    , 'updatedate' => $time);
-                $this->db->where('empid', $input['empid']);
-                $this->db->update('psu_emp', $input);
-            }
-            $crow++;
-        }
-
-        return true;
-    }
-
-    function import_insurance($file, $type) {
-
-        $crow = 0;
-        $time = date('Y/m/d H:i:s');
-        $this->db->truncate('psu_insurance');
-        while (!feof($file)) {
-            $rs = explode(",", fgets($file));
-            if ($crow > 1) {
-                $input = array('empid' => trim($rs[0])
-                    , 'role_desc' => trim($rs[14])
-                    , 'level' => trim($rs[1])
-                    , 'branch' => trim($rs[4]) // แยกกลุ่มย่อยตามภาค
-                    , 'zone_id' => $type // แยกกลุ่มตามภาค
-                    , 'account_id' => trim($rs[3])
-                    , 'updatedate' => $time);
-                $this->db->where('empid', $input['empid']);
-                if ($this->db->update('psu_emp', $input)) {
-                    $input2 = array('empid' => $rs[0]
-                        , 'afee1' => trim($rs[5])
-                        , 'afee2' => trim($rs[6])
-                        , 'afee3' => trim($rs[7])
-                        , 'afee4' => trim($rs[8])
-                        , 'afee5' => trim($rs[9])
-                        , 'afee6' => trim($rs[10])
-                        , 'afee7' => trim($rs[11])
-                        , 'afee8' => trim($rs[12])
-                        , 'afee9' => trim($rs[13])
-                        , 'year' => trim($rs[15])
+        for ($i = $from; $i <= $to; $i++) {
+            if ($i != 0) {
+                if (!empty($dataset[$i])) {
+                    $input = array('empid' => trim($dataset[$i]['empid'])
+                        , 'fullname' => trim($dataset[$i]['fullname'])
+                        , 'role_desc' => trim($dataset[$i]['role_desc'])
+                        , 'level' => trim($dataset[$i]['level'])
+                        , 'department' => trim($dataset[$i]['department'])
                         , 'createdate' => $time);
-                    $this->db->insert('psu_insurance', $input2);
+                    if ($this->getemp_byeempid($input['empid']) > 0) {
+                        $this->db->where('empid', $input['empid']);
+                        $this->db->update('psu_emp', $input);
+                    } else {
+                        $this->db->insert('psu_emp', $input);
+                    }
                 }
             }
-            $crow++;
         }
 
         return true;
     }
 
-    function import_insurance_other($file, $type) {
+    function import_member($dataset, $from, $to) {
 
-        $crow = 0;
         $time = date('Y/m/d H:i:s');
-        $this->db->truncate('psu_insurance');
-        while (!feof($file)) {
-            $rs = explode(",", fgets($file));
-            if ($crow > 1) {
-                $input = array('empid' => trim($rs[4])
-                    , 'role_desc' => trim($rs[14])
-                    , 'level' => trim($rs[5])
-                    , 'branch' => trim($rs[4]) // แยกกลุ่มย่อยตามภาค
-                    , 'zone_id' => $type // แยกกลุ่มตามภาค
-                    , 'account_id' => trim($rs[3])
-                    , 'updatedate' => $time);
-                $this->db->where('empid', $input['empid']);
-                if ($this->db->update('psu_emp', $input)) {
-                    $input2 = array('empid' => $rs[0]
-                        , 'afee1' => trim($rs[5])
-                        , 'afee2' => trim($rs[6])
-                        , 'afee3' => trim($rs[7])
-                        , 'afee4' => trim($rs[8])
-                        , 'afee5' => trim($rs[9])
-                        , 'afee6' => trim($rs[10])
-                        , 'afee7' => trim($rs[11])
-                        , 'afee8' => trim($rs[12])
-                        , 'afee9' => trim($rs[13])
-                        , 'year' => trim($rs[15])
-                        , 'createdate' => $time);
-                    $this->db->insert('psu_insurance', $input2);
+        for ($i = $from; $i <= $to; $i++) {
+            if ($i != 0) {
+                if (!empty($dataset[$i])) {
+                    $input = array('empid' => trim($dataset[$i]['empid'])
+                        , 'memberid' => trim($dataset[$i]['memberid'])
+                        , 'member_year' => trim($dataset[$i]['member_year'])
+                        , 'account_id' => trim($dataset[$i]['account_id'])
+                        , 'updatedate' => $time);
+                    $this->db->where('empid', $dataset[$i]['empid']);
+                    $this->db->update('psu_emp', $input);
                 }
             }
-            $crow++;
+        }
+        return true;
+    }
+
+    function import_insurance($dataset, $from, $to) {
+
+        $time = date('Y/m/d H:i:s');
+        for ($i = $from; $i <= $to; $i++) {
+            if ($i != 0) {
+                if (!empty($dataset[$i])) {
+                    $input = array('empid' => trim($dataset[$i]['empid'])
+                        , 'role_desc' => trim($dataset[$i]['role_desc'])
+                        , 'level' => trim($dataset[$i]['level'])
+                        , 'branch' => trim($dataset[$i]['branch'])
+                        , 'zone_id' => trim($dataset[$i]['zone_id'])
+                        , 'account_id' => trim($dataset[$i]['account_id'])
+                        , 'updatedate' => $time);
+                    $this->db->where('empid', $input['empid']);
+
+                    if ($this->db->update('psu_emp', $input)) {
+                        $input2 = array('empid' => trim($dataset[$i]['empid'])
+                            , 'afee1' => trim($dataset[$i]['afee1'])
+                            , 'afee2' => trim($dataset[$i]['afee2'])
+                            , 'afee3' => trim($dataset[$i]['afee3'])
+                            , 'afee4' => trim($dataset[$i]['afee4'])
+                            , 'afee5' => trim($dataset[$i]['afee5'])
+                            , 'afee5' => trim($dataset[$i]['afee5'])
+                            , 'afee7' => trim($dataset[$i]['afee7'])
+                            , 'afee8' => trim($dataset[$i]['afee8'])
+                            , 'afee8' => trim($dataset[$i]['afee8'])
+                            , 'year' => trim($dataset[$i]['year'])
+                            , 'createdate' => $time);
+                        if ($this->getinsurance_byempid($dataset[$i]['empid']) > 0) {
+                            $this->db->where('empid', $input2['empid']);
+                            $this->db->update('psu_insurance', $input2);
+                        } else {
+                            $this->db->insert('psu_insurance', $input2);
+                        }
+                    }
+                }
+            }
         }
 
         return true;
     }
+
+    function import_insurance_other($dataset, $from, $to) {
+        $time = date('Y/m/d H:i:s');
+        for ($i = $from; $i <= $to; $i++) {
+            if ($i != 0) {
+                if (!empty($dataset[$i])) {
+                    $input = array('empid' => trim($dataset[$i]['empid'])
+                        , 'role_desc' => trim($dataset[$i]['role_desc'])
+                        , 'level' => trim($dataset[$i]['level'])
+                        , 'branch' => trim($dataset[$i]['branch'])
+                        , 'zone_id' => trim($dataset[$i]['zone_id'])
+                        , 'account_id' => trim($dataset[$i]['account_id'])
+                        , 'updatedate' => $time);
+                    $this->db->where('empid', $input['empid']);
+                    if ($this->db->update('psu_emp', $input)) {
+
+                        $input2 = array('empid' => trim($dataset[$i]['empid'])
+                            , 'afee1' => trim($dataset[$i]['afee1'])
+                            , 'afee2' => trim($dataset[$i]['afee2'])
+                            , 'afee3' => trim($dataset[$i]['afee3'])
+                            , 'afee4' => trim($dataset[$i]['afee4'])
+                            , 'afee5' => trim($dataset[$i]['afee5'])
+                            , 'afee6' => trim($dataset[$i]['afee6'])
+                            , 'afee7' => trim($dataset[$i]['afee7'])
+                            , 'afee8' => trim($dataset[$i]['afee8'])
+                            , 'afee9' => trim($dataset[$i]['afee9'])
+                            , 'year' => trim($dataset[$i]['year'])
+                            , 'createdate' => $time);
+
+                        if ($this->getinsurance_byempid($dataset[$i]['empid']) > 0) {
+                            $this->db->where('empid', $input2['empid']);
+                            $this->db->update('psu_insurance', $input2);
+                        } else {
+                            $this->db->insert('psu_insurance', $input2);
+                        }
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    function getinsurance_byempid($empid) {
+        $query = $this->db->query("SELECT * from psu_insurance where empid = '$empid'");
+        return $query->num_rows();
+    }
+
+    function getemp_byeempid($empid) {
+        $query = $this->db->query("SELECT * from psu_emp where empid = '$empid'");
+        return $query->num_rows();
+    }
+
+    function addfile($input) {
+        if ($this->db->insert('psu_files', $input)):
+            return true;
+        else:
+            return false;
+        endif;
+    }
+    
+     function insert_permission($input) {
+        if ($this->db->insert('psu_permission', $input)):
+            return true;
+        else:
+            return false;
+        endif;
+    }
+    
 
 }
+
 ?>

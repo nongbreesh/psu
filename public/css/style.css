@@ -53,6 +53,7 @@ body{
     top:0;
     left: 0;
     height: 100%;
+    z-index: 300;
 }
 .menu .box:hover{
     background: #000;
@@ -70,6 +71,10 @@ body{
 .menu .box.last{
     border-radius: 0px 5px 5px 0px;
 }
+.menu .box.disabled{
+    background: #f7f7f7;
+     color: #eee;
+}
 .menu .box:hover .submenu{
     display: block;
 }
@@ -79,10 +84,9 @@ body{
     min-width: 230px;
     background: #000;
     left: 0;
-    z-index: 999;
+    z-index: 10;
 }
 .submenu ul{
-    z-index: 999;
     margin-top: 10px;
     padding: 10px;
     list-style:cross-fade;
@@ -108,4 +112,17 @@ footer{
     padding: 10px;
     border: 1px #ddd solid;
     border-radius: 10px;
+}
+.login-panel{
+    text-align: center;
+    margin-top: 20%;
+}
+h1.logo{
+    font-size: 32px;
+    margin-top: 15px;
+    width: 100%;
+}
+.topheader{
+    margin-top: 20px;
+    float: right;
 }
