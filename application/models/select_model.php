@@ -9,14 +9,14 @@
  */
 class select_model extends CI_Model {
 
-    function get_filebypermission($empid = null,$zoneid = null ,$page, $limit) {
+    function get_filebypermission($empid = null, $zoneid = null, $page, $limit) {
         $strlimit = "";
         $strwhere = "";
         if ($page != null) {
             $strlimit = " LIMIT $page , $limit";
         }
         if ($empid != 0) {
-                $strwhere = " AND find_in_set('$zoneid',permission_zone) <> 0";
+            $strwhere = " AND find_in_set('$zoneid',permission_zone) <> 0";
         }
         $query = $this->db->query("SELECT a.* FROM `psu_files` a"
                 . " where 1 = 1 "
@@ -25,15 +25,38 @@ class select_model extends CI_Model {
         return $query->result();
     }
 
-    function get_member($prm = null, $page, $limit) {
+    function get_member($data = null, $page, $limit) {
         $strlimit = "";
         $strwhere = "";
         if ($page != null) {
             $strlimit = " LIMIT $page , $limit";
         }
-        if ($prm != null) {
-            $strwhere = " AND a.empid = '$prm' or a.memberid = '$prm' or a.fullname like '%$prm%'";
+        if ($data['input_empid'] != null) {
+            $strwhere = " AND a.empid = '" . $data['input_empid'] . "'";
         }
+        if ($data['input_firstname'] != null) {
+            $strwhere = " AND a.fullname like '%" . $data['input_firstname'] . "%'";
+        }
+        if ($data['input_lastname'] != null) {
+            $strwhere = " AND a.fullname like '%" . $data['input_lastname'] . "%'";
+        }
+        if ($data['input_role'] != null) {
+            $strwhere = " AND a.role = '" . $data['input_role'] . "'";
+        }
+        if ($data['input_level'] != null) {
+            $strwhere = " AND a.level = '" . $data['input_level'] . "'";
+        }
+        if ($data['input_branch'] != null && $data['chk'] == 'chk_mainbranch') {
+            $strwhere = " AND a.branch = '" . $data['input_branch'] . "'";
+        }
+        if ($data['input_zone'] != null && $data['chk'] == 'chk_branch') {
+            $strwhere = " AND a.zone_id = '" . $data['input_zone'] . "'";
+        }
+        if ($data['input_department'] != null && $data['chk'] == 'chk_department') {
+            $strwhere = " AND a.department = '" . $data['input_department'] . "'";
+        }
+
+
         $query = $this->db->query("SELECT a.*,b.name as zonename from  (select * from psu_emp where memberid != 0 and memberid != '') a"
                 . " inner join psu_zone b "
                 . " on a.zone_id = b.id"
@@ -73,6 +96,12 @@ class select_model extends CI_Model {
         $query = $this->db->query("select a.*,b.permission_name from psu_zone a"
                 . " inner join psu_permission b "
                 . " on a.permission_id = b.id");
+        return $query->result();
+    }
+
+    function get_mainbranch() {
+        $query = $this->db->query("select  distinct(branch) from psu_emp a"
+                . " where a.zone_id = 0");
         return $query->result();
     }
 

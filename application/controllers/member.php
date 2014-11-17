@@ -31,35 +31,44 @@ class Member extends CI_Controller {
         $data['menu'] = "member";
         $this->config->set_item('enable_query_strings', TRUE);
 
-        if ($_POST) {
-            $data['prm'] = $this->input->post('input_search');
 
-            /* Set the config parameters */
-            $data['page'] = $this->input->get('per_page') == '' ? '0' : $this->input->get('per_page');
-            $config['uri_segment'] = 3;
-            $config['per_page'] = 30;
-            $config['base_url'] = base_url() . '/dashboard/index?prm=' . $data['prm'];
-            $config['total_rows'] = count($this->select_model->get_member($data['prm'], null, null));
+        $input_empid = $this->input->get('input_empid');
+        $input_firstname = $this->input->get('input_firstname');
+        $input_lastname = $this->input->get('input_lastname');
+        $input_role = $this->input->get('input_role');
+        $input_level = $this->input->get('input_level');
+        $input_zone = $this->input->get('input_zone');
+        $input_branch = $this->input->get('input_branch');
+        $input_department = $this->input->get('input_department');
+        $chk = $this->input->get('chk');
 
-
-            /* Initialize the pagination library with the config array */
-            $this->pagination->initialize($config);
-
-            $data['member'] = $this->select_model->get_member($data['prm'], $data['page'], $config['per_page']);
-        } else {
-            $data['prm'] = $this->input->get('prm');
-            $data['page'] = $this->input->get('per_page') == '' ? '0' : $this->input->get('per_page');
-            $config['uri_segment'] = 3;
-            $config['per_page'] = 30;
-            $config['base_url'] = base_url() . '/member/index?prm=' . $data['prm'];
-            $config['total_rows'] = count($this->select_model->get_member($data['prm'], null, null));
+        $data['input_empid'] = $input_empid;
+        $data['input_firstname'] = $input_firstname;
+        $data['input_lastname'] = $input_lastname;
+        $data['input_role'] = $input_role;
+        $data['input_level'] = $input_level;
+        $data['input_zone'] = $input_zone;
+        $data['input_branch'] = $input_branch;
+        $data['input_department'] = $input_department;
+        $data['chk'] = $chk;
 
 
-            /* Initialize the pagination library with the config array */
-            $this->pagination->initialize($config);
+        $data['prm'] = $this->input->get('prm');
+        $data['page'] = $this->input->get('per_page') == '' ? '0' : $this->input->get('per_page');
+        $config['uri_segment'] = 3;
+        $config['per_page'] = 30;
+        $config['base_url'] = base_url() . "/member/index?input_empid=$input_empid&input_firstname=$input_firstname&input_lastname=$input_lastname&input_role=$input_role&input_level=$input_level&chk=$chk&input_zone=$input_zone&input_branch=$input_branch&input_department=$input_department";
+        $config['total_rows'] = count($this->select_model->get_member($data, null, null));
 
-            $data['member'] = $this->select_model->get_member($data['prm'], $data['page'], $config['per_page']);
-        }
+
+        /* Initialize the pagination library with the config array */
+        $this->pagination->initialize($config);
+
+        $data['member'] = $this->select_model->get_member($data, $data['page'], $config['per_page']);
+
+
+        $data['zone'] = $this->select_model->get_zone();
+        $data['mainbranch'] = $this->select_model->get_mainbranch();
 
         $data['view'] = 'member/index';
         $this->load->view('template/masterpage', $data);
@@ -192,6 +201,7 @@ class Member extends CI_Controller {
                 $input = array(
                     'empid' => $this->input->post('empid')
                     , 'fullname' => $this->input->post('input_fullname')
+                    , 'password' => md5($this->input->post('input_password'))
                     , 'account_id' => $this->input->post('input_account_id')
                     , 'level' => $this->input->post('input_level')
                     , 'role' => $this->input->post('input_role')
@@ -235,7 +245,7 @@ class Member extends CI_Controller {
         $data['view'] = 'member/membersetting';
         $this->load->view('template/masterpage', $data);
     }
-    
+
     public function downloadfile() {
         if (!$this->user_model->is_login()) {
             redirect(base_url() . 'login');
@@ -245,19 +255,19 @@ class Member extends CI_Controller {
         $data['menu'] = "member";
         $this->config->set_item('enable_query_strings', FALSE);
 
-            $data['prm'] = $this->input->get('prm');
-            $data['page'] = $this->input->get('per_page') == '' ? '0' : $this->input->get('per_page');
-            $config['uri_segment'] = 3;
-            $config['per_page'] = 30;
-            $config['base_url'] = base_url() . '/member/downloadfile';
-            $config['total_rows'] = count($this->select_model->get_filebypermission($data['user']['user_empid'],$data['user']['user_zoneid'], null, null));
+        $data['prm'] = $this->input->get('prm');
+        $data['page'] = $this->input->get('per_page') == '' ? '0' : $this->input->get('per_page');
+        $config['uri_segment'] = 3;
+        $config['per_page'] = 30;
+        $config['base_url'] = base_url() . '/member/downloadfile';
+        $config['total_rows'] = count($this->select_model->get_filebypermission($data['user']['user_empid'], $data['user']['user_zoneid'], null, null));
 
 
-            /* Initialize the pagination library with the config array */
-            $this->pagination->initialize($config);
+        /* Initialize the pagination library with the config array */
+        $this->pagination->initialize($config);
 
-            $data['files'] = $this->select_model->get_filebypermission($data['user']['user_empid'],$data['user']['user_zoneid'], $data['page'], $config['per_page']);
-        
+        $data['files'] = $this->select_model->get_filebypermission($data['user']['user_empid'], $data['user']['user_zoneid'], $data['page'], $config['per_page']);
+
 
         $data['view'] = 'member/memberdownload';
         $this->load->view('template/masterpage', $data);

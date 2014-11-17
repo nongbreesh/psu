@@ -16,7 +16,7 @@
         <div class="containner">
             <div class="col-xs-12 topheader">
                 <div class="col-xs-6 pull-right" style="float: right;">
-                    <label>สวัสดีคุณ <?php echo $user['user_fullname'] ?> 
+                    <label class=" pull-right">สวัสดีคุณ <?php echo $user['user_fullname'] ?> 
                         <?php if ($user['user_empid'] != 0): ?>
                             <a href="<?php echo base_url('member') ?>/member_insurance/<?php echo $user['user_empid'] ?>">[ดูข้อมูลส่วนตัว]</a>
                         <?php endif; ?>

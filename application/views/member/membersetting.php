@@ -83,6 +83,12 @@
                                     </select>
 
                             </tr>
+                             <tr>
+                                <td>Password</td>
+                                
+                                <td><input type="password"  id="input_password" name="input_password" class="input-sm" value="<?php echo $memberdetail->password; ?>" /></td>
+
+                            </tr>
                         </tbody>
                     </table>
                     <input type="submit"  id="input_btneditinfo" name="input_btneditinfo" class="btn btn-primary pull-right" value="Save changes" />
