@@ -1,15 +1,26 @@
-﻿<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="en">
     <head>
         <title></title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript"
-        src="<?php echo base_url('public') ?>/js/jquery-1.7.2.min.js"></script>
+        <script src="<?php echo base_url() ?>public/js/jquery-2.0.0.min.js" type="text/javascript"></script>
+        <script src="<?php echo base_url() ?>public/js/moment.js" type="text/javascript"></script>
+        <link href="<?php echo base_url() ?>public/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css" />
+        <script src="<?php echo base_url() ?>public/js/bootstrap-datetimepicker.js" type="text/javascript"></script>
         <link href="<?php echo base_url('public') ?>/css/bootstrap.css" rel="stylesheet"
               type="text/css" />
         <link href="<?php echo base_url('public') ?>/css/style.css" rel="stylesheet"
               type="text/css" />
         <script type="text/javascript" src="<?php echo base_url('public') ?>/js/bootstrap.js" rel="stylesheet"></script>
+
+
+        <script>
+            $(document).ready(function () {
+                $('input[type=datetime]').datetimepicker({use24hours: true, format: 'YYYY/MM/DD HH:mm'});
+            });
+
+        </script>
     </head>
     <body>
 
@@ -17,7 +28,7 @@
             <div class="col-xs-12 topheader">
                 <div class="col-xs-6 pull-right" style="float: right;">
                     <label class=" pull-right">สวัสดีคุณ <?php echo $user['user_fullname'] ?> 
-                        <?php if ($user['user_empid'] != 0): ?>
+                        <?php if ($user['user_empid'] != 0 && $user['user_zoneid'] != 1): ?>
                             <a href="<?php echo base_url('member') ?>/member_insurance/<?php echo $user['user_empid'] ?>">[ดูข้อมูลส่วนตัว]</a>
                         <?php endif; ?>
                         <a href="<?php echo base_url(); ?>logout">[ออกจากระบบ]</a></label>
@@ -26,17 +37,29 @@
             <div class="col-xs-12 header">
 
                 <div class="col-xs-12 menu">
+                    <?php if ($user['isview'] == 1 && $user['isedit'] == 0 && $user['user_zoneid'] != 1): ?>
 
-                    <div class="col-xs-2 box first <?php echo $menu == 'home' ? 'active' : '' ?>">
-                        <a class="menu" href="<?php echo base_url(); ?>"></a>
-                        <span class="glyphicon glyphicon-stats"></span>
-                        <p>ข้อมูลหลัก</p>
-                    </div>
+                        <div class="col-xs-2 box first disabled">
+                            <a class="menu" href="#"></a>
+                            <span class="glyphicon glyphicon-stats"></span>
+                            <p>ข้อมูลหลัก</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="col-xs-2 box first <?php echo $menu == 'home' ? 'active' : '' ?>">
+                            <a class="menu" href="<?php echo base_url(); ?>"></a>
+                            <span class="glyphicon glyphicon-stats"></span>
+                            <p>ข้อมูลหลัก</p>
+                        </div>
+                    <?php endif; ?>
                     <div class="col-xs-3 box <?php echo $menu == 'member' ? 'active' : '' ?>">
-                        <?php if ($user['isview'] == 1 && $user['isedit'] == 0): ?>
-                            <a class="menu" href="<?php echo base_url('member') ?>/member_insurance/<?php echo $user['user_empid'] ?>"></a>
+                        <?php if ($user['isview'] == 1 && $user['isedit'] == 0 && $user['user_zoneid'] != 1): ?>
+                            <a class="menu" href="<?php echo base_url(); ?>member/member_insurance/<?php echo $user['user_empid']; ?>"></a>
                         <?php else: ?>
-                            <a class="menu" href="<?php echo base_url(); ?>member"></a>
+                            <?php if ($user['isadmin'] == 1): ?>
+                                <a class="menu" href="<?php echo base_url(); ?>member/"></a>
+                            <?php else: ?>
+                                <a class="menu" href="#"></a>
+                            <?php endif; ?>
                         <?php endif; ?>
                         <span class="glyphicon glyphicon-user"></span>
                         <p>ข้อมูลสมาชิก</p>
@@ -53,16 +76,34 @@
                             </div>
                         <?php endif; ?>
                     </div>
-                    <div class="col-xs-2 box">
-                        <a class="menu" href="#"></a>
-                        <span class="glyphicon glyphicon-signal"></span>
-                        <p>รายงาน</p>
-                    </div>
-                    <div class="col-xs-3 box">
-                        <a class="menu" href="#"></a>
-                        <span class="glyphicon glyphicon-usd"></span>
-                        <p>ข้อมูลการชำระเงิน</p>
-                    </div>
+                    <?php if ($user['isview'] == 1 && $user['isedit'] == 0 && $user['user_zoneid'] != 1): ?>
+                        <div class="col-xs-2 box disabled">
+                            <a class="menu" href="#"></a>
+                            <span class="glyphicon glyphicon-signal"></span>
+                            <p>รายงาน</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="col-xs-2 box">
+                            <a class="menu" href="<?php echo base_url('report') ?>"></a>
+                            <span class="glyphicon glyphicon-signal"></span>
+                            <p>รายงาน</p>
+                        </div>
+                    <?php endif; ?>
+
+                    <?php if ($user['isview'] == 1 && $user['isedit'] == 0 && $user['user_zoneid'] != 1): ?>
+                        <div class="col-xs-3 box disabled">
+                            <a class="menu" href="#"></a>
+                            <span class="glyphicon glyphicon-usd"></span>
+                            <p>ข้อมูลการชำระเงิน</p>
+                        </div>
+                    <?php else: ?>
+                        <div class="col-xs-3 box">
+                            <a class="menu" href="<?php echo base_url('payment_info') ?>"></a>
+                            <span class="glyphicon glyphicon-usd"></span>
+                            <p>ข้อมูลการชำระเงิน</p>
+                        </div>
+                    <?php endif; ?>
+
                     <?php if ($user['isadmin'] == 1): ?>
                         <div class="col-xs-2 box last <?php echo $menu == 'setting' ? 'active' : '' ?>">
                             <a class="menu" href="#"></a>

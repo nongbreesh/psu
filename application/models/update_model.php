@@ -42,6 +42,17 @@ class update_model extends CI_Model {
             return false;
         endif;
     }
+    
+      function updatepayment($input) {
+        $this->db->where('empid', $input['empid']);
+        if ($this->db->update('psu_emp', $input)):
+            $this->db->close();
+            return true;
+        else:
+            return false;
+        endif;
+    }
+    
          function delete_permission($id) {
         $this->db->where('id', $id);
         if ($this->db->delete('psu_permission')):

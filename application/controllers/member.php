@@ -8,6 +8,7 @@ class Member extends CI_Controller {
     function __construct() {
         parent::__construct();
         $this->load->helpers('url_helper');
+        $this->load->helpers('csv_helper');
     }
 
     function getJsondata($url) {
@@ -31,7 +32,7 @@ class Member extends CI_Controller {
         $data['menu'] = "member";
         $this->config->set_item('enable_query_strings', TRUE);
 
-
+        $btnsubmit = $this->input->get('btnsubmit');
         $input_empid = $this->input->get('input_empid');
         $input_firstname = $this->input->get('input_firstname');
         $input_lastname = $this->input->get('input_lastname');
@@ -40,10 +41,12 @@ class Member extends CI_Controller {
         $input_zone = $this->input->get('input_zone');
         $input_branch = $this->input->get('input_branch');
         $input_department = $this->input->get('input_department');
+        $input_subdepartment = $this->input->get('input_subdepartment');
         $chk = $this->input->get('chk');
 
         $data['input_empid'] = $input_empid;
         $data['input_firstname'] = $input_firstname;
+        $data['input_subdepartment'] = $input_subdepartment;
         $data['input_lastname'] = $input_lastname;
         $data['input_role'] = $input_role;
         $data['input_level'] = $input_level;
@@ -57,21 +60,62 @@ class Member extends CI_Controller {
         $data['page'] = $this->input->get('per_page') == '' ? '0' : $this->input->get('per_page');
         $config['uri_segment'] = 3;
         $config['per_page'] = 30;
-        $config['base_url'] = base_url() . "/member/index?input_empid=$input_empid&input_firstname=$input_firstname&input_lastname=$input_lastname&input_role=$input_role&input_level=$input_level&chk=$chk&input_zone=$input_zone&input_branch=$input_branch&input_department=$input_department";
+        $config['base_url'] = base_url() . "/member/index?input_empid=$input_empid&input_firstname=$input_firstname&input_lastname=$input_lastname&input_subdepartment=$input_subdepartment&input_role=$input_role&input_level=$input_level&chk=$chk&input_zone=$input_zone&input_branch=$input_branch&input_department=$input_department";
         $config['total_rows'] = count($this->select_model->get_member($data, null, null));
+
 
 
         /* Initialize the pagination library with the config array */
         $this->pagination->initialize($config);
 
+
+
         $data['member'] = $this->select_model->get_member($data, $data['page'], $config['per_page']);
-
-
         $data['zone'] = $this->select_model->get_zone();
         $data['mainbranch'] = $this->select_model->get_mainbranch();
-
         $data['view'] = 'member/index';
         $this->load->view('template/masterpage', $data);
+    }
+
+    public function exportmember() {
+
+        $input_empid = $this->input->get('input_empid');
+        $input_firstname = $this->input->get('input_firstname');
+        $input_lastname = $this->input->get('input_lastname');
+        $input_role = $this->input->get('input_role');
+        $input_level = $this->input->get('input_level');
+        $input_zone = $this->input->get('input_zone');
+        $input_branch = $this->input->get('input_branch');
+        $input_department = $this->input->get('input_department');
+        $input_subdepartment = $this->input->get('input_subdepartment');
+        $chk = $this->input->get('chk');
+
+        $data['input_empid'] = $input_empid;
+        $data['input_firstname'] = $input_firstname;
+        $data['input_subdepartment'] = $input_subdepartment;
+        $data['input_lastname'] = $input_lastname;
+        $data['input_role'] = $input_role;
+        $data['input_level'] = $input_level;
+        $data['input_zone'] = $input_zone;
+        $data['input_branch'] = $input_branch;
+        $data['input_department'] = $input_department;
+        $data['chk'] = $chk;
+
+
+        $result = $this->select_model->get_exportmember($data,null,null);
+        $time = date('Ymd');
+        $filename = 'report_' . $time . '.csv';
+        //header('Content-Encoding: UTF-8');
+        //header('Content-type: text/csv; charset=UTF-8');
+        header("Content-Type: application/vnd.ms-excel; charset=UTF-8");
+        header("Content-Type: application/force-download");
+        header("Content-Type: application/octet-stream");
+        header("Content-Type: application/download");
+
+        header("Content-Disposition: attachment;filename={$filename}");
+        echo "\xEF\xBB\xBF"; // UTF-8 BOM
+        //print_r($result);
+        echo query_to_csv($result, $filename);
     }
 
     public function memberline() {
@@ -271,6 +315,12 @@ class Member extends CI_Controller {
 
         $data['view'] = 'member/memberdownload';
         $this->load->view('template/masterpage', $data);
+    }
+
+    function getsubdepartment($id) {
+        $data['result'] = $this->select_model->get_departmentbyid($id);
+        $this->output->set_header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($data);
     }
 
 }

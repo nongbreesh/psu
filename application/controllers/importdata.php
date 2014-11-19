@@ -122,6 +122,7 @@ class Importdata extends CI_Controller {
                         $input = array('empid' => trim($rs[1])
                             , 'memberid' => trim($rs[0])
                             , 'member_year' => trim($rs[8])
+                            , 'payment_date' => trim($rs[8]) // รอ
                             , 'account_id' => trim($rs[9]));
                         array_push($dataset, $input);
                     }

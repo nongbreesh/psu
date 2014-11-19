@@ -73,7 +73,8 @@ body{
 }
 .menu .box.disabled{
     background: #f7f7f7;
-     color: #eee;
+    color: #eee;
+    border: 1px #ddd solid;
 }
 .menu .box:hover .submenu{
     display: block;
