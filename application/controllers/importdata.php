@@ -118,13 +118,18 @@ class Importdata extends CI_Controller {
                 $dataset = array();
                 while (!feof($file)) {
                     $rs = explode(",", fgets($file));
+
                     if ($rs[0] != '') {
+                        $s = trim($rs[10]);
+                        $date = strtotime($s);
+                        // if (trim($rs[8]) <= 10) {
                         $input = array('empid' => trim($rs[1])
                             , 'memberid' => trim($rs[0])
                             , 'member_year' => trim($rs[8])
-                            , 'payment_date' => trim($rs[10]) // รอ
+                            , 'payment_date' => date('Y/m/d H:i:s', $date) // รอ
                             , 'account_id' => trim($rs[9]));
                         array_push($dataset, $input);
+                        //}
                     }
                 }
 
