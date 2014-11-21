@@ -114,7 +114,7 @@
                                     <li>  <a class="" href="<?php echo base_url(); ?>setting/filepermissionsetting">ระบบจัดการเอกสาร</a></li>
                                     <li>  <a class="" href="<?php echo base_url(); ?>setting/memberpermissionsetting">ระบบจัดการสิทธิ</a></li>
                                     <li>  <a class="" href="<?php echo base_url(); ?>setting/grouppermissionsetting">ระบบจัดการสิทธิ์ตามภาค</a></li>
-                                    <li>  <a class="" href="<?php echo base_url(); ?>setting/filemanage">นำเข้าข้อมูลพนักงาน </a></li>
+                                    <li>  <a class="" href="<?php echo base_url(); ?>importdata/importemp">นำเข้าข้อมูลพนักงาน </a></li>
                                     <li>  <a class="" href="<?php echo base_url(); ?>importdata/importmember">นำเข้าข้อมูลสมาชิก </a></li>
                                     <li>  <a class="" href="<?php echo base_url(); ?>importdata/importins1">นำเข้าข้อมูลประกัน กลุ่มผู้บริหาร</a></li>
                                     <li>  <a class="" href="<?php echo base_url(); ?>importdata/importins2">นำเข้าข้อมูลประกัน กลุ่มภาคเหนือ</a></li>

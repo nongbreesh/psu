@@ -12,7 +12,7 @@
                         </div>
                     </div>
                 <?php endif; ?>
-                <div class="col-xs-12">
+                <div class="col-xs-8">
                     <form action="" class="form-inline" method="POST" enctype="multipart/form-data" >
                         <div class="form-group">
                             <div class="input-group col-xs-12">
@@ -26,6 +26,7 @@
                         </div>
                     </form>
                 </div>
+<div class="col-xs-4"><a href="<?php echo base_url('public/PSUFILE/importinsurance5.csv'); ?>"><h5>[ดาวน์โหลดตัวอย่างไฟล์]</h5></a></div>
 
             </div>
         </div>
