@@ -198,7 +198,6 @@ class Importdata extends CI_Controller {
                             , 'afee7' => trim($rs[11])
                             , 'afee8' => trim($rs[12])
                             , 'afee9' => trim($rs[13])
-                            , 'role_desc' => trim($rs[14])
                             , 'year' => trim($rs[15]));
                         array_push($dataset, $input);
                     }
@@ -247,7 +246,7 @@ class Importdata extends CI_Controller {
                     $rs = explode(",", fgets($file));
                     if ($rs[0] != '') {
                         $input = array('empid' => trim($rs[4])
-                            , 'role_desc' => trim($rs[14])
+                            
                             , 'level' => trim($rs[5])
                             , 'account_id' => trim($rs[0])
                             , 'branch' => trim($rs[6]) // แยกกลุ่มย่อยตามภาค
@@ -309,7 +308,7 @@ class Importdata extends CI_Controller {
                     $rs = explode(",", fgets($file));
                     if ($rs[0] != '') {
                         $input = array('empid' => trim($rs[4])
-                            , 'role_desc' => trim($rs[14])
+                            
                             , 'level' => trim($rs[5])
                             , 'account_id' => trim($rs[0])
                             , 'branch' => trim($rs[6]) // แยกกลุ่มย่อยตามภาค
@@ -371,7 +370,7 @@ class Importdata extends CI_Controller {
                     $rs = explode(",", fgets($file));
                     if ($rs[0] != '') {
                         $input = array('empid' => trim($rs[4])
-                            , 'role_desc' => trim($rs[14])
+                            
                             , 'level' => trim($rs[5])
                             , 'account_id' => trim($rs[0])
                             , 'branch' => trim($rs[6]) // แยกกลุ่มย่อยตามภาค
@@ -433,7 +432,7 @@ class Importdata extends CI_Controller {
                     $rs = explode(",", fgets($file));
                     if ($rs[0] != '') {
                         $input = array('empid' => trim($rs[4])
-                            , 'role_desc' => trim($rs[14])
+                            
                             , 'level' => trim($rs[5])
                             , 'account_id' => trim($rs[0])
                             , 'branch' => trim($rs[6]) // แยกกลุ่มย่อยตามภาค
@@ -495,7 +494,7 @@ class Importdata extends CI_Controller {
                     $rs = explode(",", fgets($file));
                     if ($rs[0] != '') {
                         $input = array('empid' => trim($rs[4])
-                            , 'role_desc' => trim($rs[14])
+                            
                             , 'level' => trim($rs[5])
                             , 'account_id' => trim($rs[0])
                             , 'branch' => trim($rs[6]) // แยกกลุ่มย่อยตามภาค

@@ -93,7 +93,6 @@ class Insert_model extends CI_Model {
             if ($i != 0) {
                 if (!empty($dataset[$i])) {
                     $input = array('empid' => trim($dataset[$i]['empid'])
-                        , 'role_desc' => trim($dataset[$i]['role_desc'])
                         , 'level' => trim($dataset[$i]['level'])
                         , 'branch' => trim($dataset[$i]['branch'])
                         , 'zone_id' => trim($dataset[$i]['zone_id'])

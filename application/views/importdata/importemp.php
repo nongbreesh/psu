@@ -26,7 +26,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="col-xs-4"><a href="<?php echo base_url('public/PSUFILE/templateพนักงาน.csv'); ?>"><h5>[ดาวน์โหลดตัวอย่างไฟล์]</h5></a></div>
+                <div class="col-xs-4"><a href="<?php echo base_url('public/PSUFILE/templateemployee.csv'); ?>"><h5>[ดาวน์โหลดตัวอย่างไฟล์]</h5></a></div>
             </div>
         </div>
     </div>

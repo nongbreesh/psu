@@ -124,7 +124,7 @@
                         <td><?php echo $each->empid; ?></td>
                         <td><?php echo $each->memberid; ?></td>
                         <td><?php echo $each->fullname; ?></td>
-                        <td><?php echo $each->role; ?></td>
+                        <td><?php echo $each->role_desc; ?></td>
                         <td><?php echo $each->level; ?></td>
                         <td><?php echo $each->department; ?></td>
                         <td><?php echo $each->zonename; ?></td>
